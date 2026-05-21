@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Escolha Misteriosa</title>
+
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: linear-gradient(135deg, #111, #1f1f1f);
+      color: white;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      flex-direction: column;
+      text-align: center;
+    }
+
+    h1 {
+      margin-bottom: 10px;
+      font-size: 34px;
+    }
+
+    h2 {
+      margin-bottom: 30px;
+      color: #ffb6f9;
+      font-weight: normal;
+    }
+
+    .container {
+      display: flex;
+      gap: 20px;
+    }
+
+    .box {
+      width: 150px;
+      height: 150px;
+      background: #222;
+      border: 3px solid #555;
+      border-radius: 15px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 60px;
+      cursor: pointer;
+      transition: 0.3s;
+      overflow: hidden;
+      user-select: none;
+    }
+
+    .box:hover {
+      transform: scale(1.05);
+      background: #333;
+    }
+
+    .disabled {
+      opacity: 0.4;
+    }
+
+    .box img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    #mensagem {
+      margin-top: 30px;
+      font-size: 22px;
+      color: #ffcc00;
+      min-height: 30px;
+      padding: 10px;
+    }
+  </style>
+</head>
+
+<body>
+
+  <h1>🎁 Presente Misterioso 🎁</h1>
+  <h2>Eduarda, escolha apenas UMA imagem 👀</h2>
+
+  <div class="container">
+    <div class="box">?</div>
+    <div class="box">?</div>
+    <div class="box">?</div>
+  </div>
+
+  <div id="mensagem"></div>
+
+  <script>
+    const caixas = document.querySelectorAll(".box");
+    const mensagem = document.getElementById("mensagem");
+
+    // SUAS 3 IMAGENS
+    const imagens = [
+      "src/barra.webp",
+      "src/creme.webp",
+      "src/pandora.webp"
+    ];
+
+    // Mistura as imagens toda vez que entrar no site
+    const imagensAleatorias = imagens.sort(() => Math.random() - 0.5);
+
+    let escolhida = null;
+
+    caixas.forEach((caixa, index) => {
+
+      caixa.addEventListener("click", () => {
+
+        // PRIMEIRA ESCOLHA
+        if (escolhida === null) {
+
+          escolhida = caixa;
+
+          caixa.innerHTML = `
+            <img src="${imagensAleatorias[index]}" alt="Imagem escolhida">
+          `;
+
+          caixa.style.background = "#00ff88";
+
+          mensagem.textContent =
+            "😎 Boa Eduarda... essa foi sua escolha oficial!";
+
+          caixas.forEach((outraCaixa) => {
+            if (outraCaixa !== caixa) {
+              outraCaixa.classList.add("disabled");
+            }
+          });
+
+        }
+
+        // TENTOU ESCOLHER OUTRA
+        else if (caixa !== escolhida) {
+
+          mensagem.textContent =
+            "👀 Opa Eduarda... tá querendo trapacear né? 😂";
+
+          mensagem.style.color = "#ff5555";
+
+        }
+
+      });
+
+    });
+  </script>
+
+</body>
+</html>
